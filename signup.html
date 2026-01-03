@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<form id="signupForm">
+  <div class="container">
+    <div class="book-container">
+      <div class="login">
+        <h2>Sign Up</h2>
+
+        <input type="text" placeholder="E-mail" id="email" required>
+        <input type="password" placeholder="Password" id="password" required>
+        <input type="password" placeholder="Confirm Password" id="confirmPassword" required>
+
+        <input type="submit" value="Sign Up" class="but">
+
+        <p>Already have an account? <a href="login.html">Login</a></p>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script>
+document.getElementById("signupForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+
+  if (password !== confirmPassword) {
+    alert("Passwords do not match!");
+    return;
+  }
+
+  try {
+    const res = await fetch("https://new-daily-lines.onrender.com/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("Account created successfully! Please login.");
+      window.location.href = "login.html";
+    } else {
+      alert(data.message);
+    }
+
+  } catch (err) {
+    alert("Server error, please try again later.");
+    console.error(err);
+  }
+});
+</script>
+
+</body>
+</html>
