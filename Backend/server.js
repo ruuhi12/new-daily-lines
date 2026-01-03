@@ -7,7 +7,7 @@ const app = express();
 
 /* 🔴 CORS MUST BE FIRST */
 app.use(cors({
-  origin: "https://new-daily-lines.vercel.app/",
+  origin: "https://new-daily-lines.vercel.app",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
