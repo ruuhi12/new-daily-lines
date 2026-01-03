@@ -5,12 +5,31 @@ const authRoutes = require("./routes/auth");
 
 const app = express();
 
-/* 🔴 CORS MUST BE FIRST */
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://new-daily-lines.vercel.app"
+];
+
 app.use(cors({
-  origin: "https://new-daily-lines.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  origin: function(origin, callback){
+    if(!origin) return callback(null, true); // allow non-browser clients like Postman
+    if(allowedOrigins.indexOf(origin) === -1){
+      const msg = `CORS policy: This origin ${origin} is not allowed.`;
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true
 }));
+
+
+/* 🔴 CORS MUST BE FIRST */
+// app.use(cors({
+//   origin: "https://new-daily-lines.vercel.app",
+//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+// }));
 
 /* 🔴 Parse JSON BEFORE routes */
 app.use(express.json());
