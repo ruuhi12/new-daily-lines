@@ -42,5 +42,28 @@ router.delete("/:id", auth, async (req, res) => {
   await quote.remove();
   res.json({ message: "Deleted" });
 });
+/**
+ * POST /api/quotes
+ * Create a new quote
+ */
+router.post("/", auth, async (req, res) => {
+  try {
+    const { text } = req.body;
 
+    if (!text) {
+      return res.status(400).json({ message: "Quote text is required" });
+    }
+
+    const quote = new Quote({
+      text,
+      userId: req.user.userId   // IMPORTANT
+    });
+
+    await quote.save();
+    res.status(201).json(quote);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to create quote" });
+  }
+});
 module.exports = router;

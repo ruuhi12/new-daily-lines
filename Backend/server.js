@@ -22,7 +22,9 @@ app.use(cors({
   },
   credentials: true
 }));
+const quotesRoutes = require("./routes/quotes");
 
+app.use("/api/quotes", quotesRoutes);
 
 /* 🔴 CORS MUST BE FIRST */
 // app.use(cors({
