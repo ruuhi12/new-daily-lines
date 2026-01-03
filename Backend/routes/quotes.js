@@ -26,22 +26,55 @@ router.get("/saved", auth, async (req, res) => {
   res.json(quotes);
 });
 
-// Save a quote
-router.put("/save/:id", auth, async (req, res) => {
-  const quote = await Quote.findById(req.params.id);
-  if(!quote) return res.status(404).json({ message: "Quote not found" });
-  if(!quote.savedBy.includes(req.user.id)) quote.savedBy.push(req.user.id);
-  await quote.save();
-  res.json({ message: "Saved" });
+router.post("/:id/save", auth, async (req, res) => {
+  try {
+    const quote = await Quote.findById(req.params.id);
+
+    if (!quote) {
+      return res.status(404).json({ message: "Quote not found" });
+    }
+
+    const userId = req.user.userId;
+
+    // prevent duplicate save
+    if (quote.savedBy.includes(userId)) {
+      return res.status(400).json({ message: "Already saved" });
+    }
+
+    quote.savedBy.push(userId);
+    await quote.save();
+
+    res.json({ message: "Quote saved successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 // Delete a quote (only owner)
+// DELETE quote (only owner can delete)
 router.delete("/:id", auth, async (req, res) => {
-  const quote = await Quote.findOne({ _id: req.params.id, userId: req.user.id });
-  if(!quote) return res.status(404).json({ message: "Quote not found or not authorized" });
-  await quote.remove();
-  res.json({ message: "Deleted" });
+  try {
+    const quote = await Quote.findById(req.params.id);
+
+    if (!quote) {
+      return res.status(404).json({ message: "Quote not found" });
+    }
+
+    // ownership check
+    if (quote.userId.toString() !== req.user.userId) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    await quote.deleteOne();
+
+    res.json({ message: "Quote deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
 });
+
 /**
  * POST /api/quotes
  * Create a new quote

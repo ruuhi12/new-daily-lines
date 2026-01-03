@@ -1,65 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Sign Up - Daily Lines</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body { margin:0; font-family:Arial, sans-serif; background:url(homepageimg.jpg) center/cover no-repeat; height:100vh; display:flex; justify-content:center; align-items:center; }
-.container { background:rgba(255,255,255,0.9); padding:30px; border-radius:12px; display:flex; flex-direction:column; gap:15px; width:320px; text-align:center; }
-input { padding:10px; font-size:16px; border-radius:6px; border:1px solid #ccc; width:100%; }
-button { padding:12px; font-size:16px; background:#5a2d2d; color:white; border:none; border-radius:6px; cursor:pointer; }
-button:hover { background:#42201a; }
-</style>
+    <meta charset="UTF-8">
+    <title>Sign Up - Daily Lines</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url(homepageimg.jpg) center/cover no-repeat;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 320px;
+            text-align: center;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+
+        button {
+            padding: 12px;
+            font-size: 16px;
+            background: #5a2d2d;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #42201a;
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="container">
-<h2>Create Account</h2>
-<input type="text" id="name" placeholder="Full Name">
-<input type="email" id="email" placeholder="Email">
-<input type="password" id="password" placeholder="Password">
-<input type="password" id="cpassword" placeholder="Confirm Password">
-<button onclick="signup()">Sign Up</button>
-<p>Already have an account? <a href="login.html">Login</a></p>
-</div>
+    <div class="container">
+        <h2>Create Account</h2>
+        <input type="text" id="name" placeholder="Full Name">
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <input type="password" id="cpassword" placeholder="Confirm Password">
+        <button onclick="signup()">Sign Up</button>
+        <p>Already have an account? <a href="index.html">Login</a></p>
+    </div>
 
-<script>
-const API_URL = "https://new-daily-lines.onrender.com/api/auth/signup";
+    <script>
+        const API_URL = "https://new-daily-lines.onrender.com/api/auth/signup";
 
-async function signup(){
-  const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
-  const cpassword = document.getElementById("cpassword").value.trim();
+        async function signup() {
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const cpassword = document.getElementById("cpassword").value.trim();
 
-  if(!name || !email || !password || !cpassword){
-    alert("Please fill all fields");
-    return;
-  }
-  if(password !== cpassword){
-    alert("Passwords do not match");
-    return;
-  }
+            if (!name || !email || !password || !cpassword) {
+                alert("Please fill all fields");
+                return;
+            }
+            if (password !== cpassword) {
+                alert("Passwords do not match");
+                return;
+            }
 
-  try{
-    const res = await fetch(API_URL, {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({ name, email, password })
-    });
-    const data = await res.json();
-    if(res.ok){
-      alert("Account created! Please login.");
-      window.location.href = "index.html";
-    } else {
-      alert(data.message || "Signup failed");
-    }
-  }catch(err){
-    console.error(err);
-    alert("Server error");
-  }
-}
-</script>
+            try {
+                const res = await fetch(API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, email, password })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert("Account created! Please login.");
+                    window.location.href = "index.html";
+                } else {
+                    alert(data.message || "Signup failed");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Server error");
+            }
+        }
+    </script>
 </body>
+
 </html>
