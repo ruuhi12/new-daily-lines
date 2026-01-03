@@ -16,15 +16,23 @@ router.get("/", auth, async (req, res) => {
 
 // Get user's own quotes
 router.get("/my", auth, async (req, res) => {
-  const quotes = await Quote.find({ userId: req.user.id }).sort({ createdAt: -1 });
+  console.log("AUTH USER ID:", req.user.id);
+
+  const quotes = await Quote.find({ userId: req.user.id });
   res.json(quotes);
 });
 
+
 // Get saved quotes
 router.get("/saved", auth, async (req, res) => {
-  const quotes = await Quote.find({ savedBy: req.user.id }).sort({ createdAt: -1 });
+  const quotes = await Quote.find({
+    savedBy: req.user.id,
+    userId: { $ne: req.user.id }   // 🚨 THIS LINE
+  }).sort({ createdAt: -1 });
+
   res.json(quotes);
 });
+
 
 router.post("/:id/save", auth, async (req, res) => {
   try {
