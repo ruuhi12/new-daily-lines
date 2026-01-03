@@ -231,7 +231,7 @@ async function loadQuotes() {
             saveBtn.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
             saveBtn.onclick = async () => {
                 try {
-                    const saveRes = await fetch(`https://new-daily-lines.onrender.com/api/quotes/save/${q._id}`, {
+                    const saveRes = await fetch(`https://new-daily-lines.onrender.com/api/quotes/${q._id}/save`, {
                         method: "POST",
                         headers: { "Authorization": `Bearer ${token}` }
                     });

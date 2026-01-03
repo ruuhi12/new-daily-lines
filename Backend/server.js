@@ -27,16 +27,6 @@ const quotesRoutes = require("./routes/quotes");
 app.use(express.json());
 app.use("/api/quotes", quotesRoutes);
 
-/* 🔴 CORS MUST BE FIRST */
-// app.use(cors({
-//   origin: "https://new-daily-lines.vercel.app",
-//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-//   allowedHeaders: ["Content-Type", "Authorization"],
-// }));
-
-/* 🔴 Parse JSON BEFORE routes */
-
-
 /* Routes */
 app.use("/api/auth", authRoutes);
 
