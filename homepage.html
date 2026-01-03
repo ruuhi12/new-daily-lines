@@ -214,7 +214,7 @@
             if (!token) return;
 
             try {
-                const res = await fetch("https://new-daily-lines.onrender.com/api/quotes", {
+                const res = await fetch("https://new-daily-lines.onrender.com/api/quotes/my", {
                     headers: { "Authorization": `Bearer ${token}` }
                 });
 
