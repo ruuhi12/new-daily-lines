@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<form id="log">
+  <div class="container">
+    <div class="book-container">
+
+      <div class="login">
+        <h2>Login</h2>
+
+        <input type="text" placeholder="E-mail" id="email" >
+        <input type="password"  placeholder="Password" id="password" >
+
+        <div class="forgot">
+          <label>
+            <input type="checkbox"> Remember me
+          </label>
+        </div>
+
+        <input type="submit" value="Login" class="but">
+
+     
+      </div>
+
+    </div>
+  </div>
+</form>
+<script>
+
+document.getElementById("log").addEventListener("submit", function(e) {
+  e.preventDefault();
+  var email = document.getElementById("email").value;
+  var password = document.getElementById("password").value;
+  if (email === "abc@gmail.com" && password === "123") {
+    alert("Successfully login!");
+    window.location.href = "homepage.html";
+  } else {
+    alert("Check your input!");
+  }
+});
+</script>
+</body>
+</html> 

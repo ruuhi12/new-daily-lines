@@ -1,0 +1,252 @@
+<body>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <header class="header">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <div class="logo">
+            <img src="mylogo.jpg" alt="daily lines logo" class="pic">
+<h1><bold>𝓓𝓪𝓲𝓵𝔂 𝓛𝓲𝓷𝓮𝓼</bold></h1>
+</div>
+</header>
+<div class="center-box">
+    <div class="menu-container">
+      
+      <input type="checkbox" id="menu">
+
+      <label for="menu" class="menu-btn">☰ Library</label>
+
+      <div class="drop">
+         <a href="#" onclick="showSection('work')">My Work</a>
+  <a href="#" onclick="showSection('saved')">Saved</a>
+      </div>
+    </div>
+  </div>
+<div id="libraryContent"></div>
+
+
+
+</body>
+<style>
+  .page{
+    transition:transform 0.4s ease;
+  }
+body {
+  margin: 0;
+  background-image: url(homepageimg.jpg);
+  background-size: cover;
+}
+
+.center-box {
+  height: 10vh;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-left:0;
+}
+
+.menu-container {
+  position: relative;
+}
+
+.menu-btn {
+  background-color: #5a2d2d;
+  color: white;
+  padding: 20px 50px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 40px;
+  margin-left: 40px;
+}
+#menu {
+  display: none;
+}
+.drop {
+  display: none;
+  position: absolute;
+  top: 110%;     
+  left: 40%;   
+  margin-top: 6px;
+  background-color: #f5e6d3;
+  width: 160px;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  font-size: 20px;
+}
+
+#menu:checked + .menu-btn + .drop {
+  display: block;
+}
+
+.drop a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: black;
+}
+
+.drop a:hover {
+  background-color: #e0cbb0;
+}
+.header{
+    padding: 20px 40px;
+    height: 150px;
+    display: flex;
+  
+
+}
+.logo{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.pic{
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+}
+
+.quote-card{
+    width: 350px;
+    height: 360px;
+    background-image: url("page.jpeg");
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+
+    display: flex;
+    flex-direction: column;      /* stack text and icon vertically */
+    justify-content: center;     /* center text vertically */
+    align-items: center;         /* center horizontally */
+    text-align: center;
+    font-size: 18px;
+    color: #000;
+    padding: 20px;
+    position: relative;
+}
+
+
+   .save-btn{
+    position: absolute;
+    bottom: 3px;       /* controls how high it is */
+    left: 10px;
+    transform: translateX(50%);
+
+    padding: 10px 12px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    font-size: 20px;
+}
+
+#libraryContent{
+    margin-top: 60px;   /* space from Library box */
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;          /* space between multiple quotes */
+}
+.delete-btn {
+    position: absolute;
+    bottom: 3px;
+    right: 15px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+
+
+  </style>
+<script>
+ 
+function showSection(type) {
+    const container = document.getElementById("libraryContent");
+    container.innerHTML = "";
+
+    let data = [];
+
+    if (type === "work") {
+        data = JSON.parse(localStorage.getItem("myQuotes")) || [];
+    } 
+    else if (type === "saved") {
+        data = JSON.parse(localStorage.getItem("savedQuotes")) || [];
+    }
+
+    if (data.length === 0) {
+        container.innerHTML = "<p style='text-align:center;font-weight:bold'>Nothing here yet 🌿</p>";
+        return;
+    }
+
+    data.forEach(q => {
+        const card = document.createElement("div");
+        card.className = "quote-card";
+        card.innerText = q;
+        container.appendChild(card);
+    });
+}
+//qqq
+function showSection(type){
+    const container = document.getElementById("libraryContent");
+    container.innerHTML = "";
+
+    let data = type === "work" 
+                ? JSON.parse(localStorage.getItem("myQuotes")) || []
+                : JSON.parse(localStorage.getItem("savedQuotes")) || [];
+
+    if(data.length === 0){
+        container.innerHTML = "<p style='text-align:center'>Nothing here yet 🌿</p>";
+        return;
+    }
+
+    data.forEach(q => {
+        const card = document.createElement("div");
+        card.className = "quote-card";
+        card.innerText = q;
+
+        if(type === "work"){
+            const saveBtn = document.createElement("button");
+            saveBtn.className = "save-btn";
+            saveBtn.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+
+            saveBtn.onclick = function(){
+                let saved = JSON.parse(localStorage.getItem("savedQuotes")) || [];
+                if(!saved.includes(q)){
+                    saved.unshift(q);
+                    localStorage.setItem("savedQuotes", JSON.stringify(saved));
+                    alert("Saved ✨");
+                } else {
+                    alert("Already saved");
+                }
+            };
+                // DELETE button 🗑️ (THIS WAS MISSING)
+            const deleteBtn = document.createElement("button");
+            deleteBtn.className = "delete-btn";
+            deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+
+            deleteBtn.onclick = function(){
+                if(confirm("Delete this quote?")){
+                    data.splice(index, 1);
+                    localStorage.setItem("myQuotes", JSON.stringify(data));
+                    showSection("work"); // refresh
+                }
+            };
+  card.appendChild(deleteBtn);
+            card.appendChild(saveBtn);
+        }
+         
+       
+
+        container.appendChild(card);
+    });
+}
+
+
+
+</script>
+
+  

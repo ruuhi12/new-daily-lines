@@ -1,0 +1,113 @@
+<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<header class="header">
+    <div class="logo">
+        <img src="mylogo.jpg" class="pic" alt="Daily Lines logo">
+        <h1>Daily Lines</h1>
+    </div>
+</header>
+
+<div class="write">
+    <textarea id="quoteText" placeholder="Write something..."></textarea>
+    <button onclick="publishText()">Publish</button>
+    
+</div>
+
+<script>
+
+function publishText(){
+    let text = document.getElementById("quoteText").value.trim();
+
+    if(text === ""){
+        alert("Write something first");
+        return;
+    }
+
+
+    let quotes = JSON.parse(localStorage.getItem("dailyQuotes")) || [];
+
+
+    quotes.unshift(text);
+
+    
+    localStorage.setItem("dailyQuotes", JSON.stringify(quotes));
+
+    window.location.href = "homepage.html";
+     let myWork = JSON.parse(localStorage.getItem("myQuotes")) || [];
+    myWork.unshift(text);
+    localStorage.setItem("myQuotes", JSON.stringify(myWork));
+
+    alert("Uploaded ✨");
+    window.location.href = "homepage.html";
+
+    
+}
+</script>
+</body>
+<style>
+body{
+    margin: 0;
+    height: 100vh;
+    background: url(homepageimg.jpg) center/cover no-repeat;
+}
+
+
+.header{
+    position: fixed;
+    top: 20px;
+    left: 30px;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+
+.pic{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+
+h1{
+    font-size: 28px;
+    color: #5a2d2d;
+    font-weight: normal;
+}
+.write{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+textarea{
+  width: 350px;
+    height: 360px;
+
+    background-image: url("page.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;        
+    background-position: center;   
+
+    color: #000;                  
+    border: none;
+    border-radius: 12px;
+
+    padding: 80px 25px;            
+    font-size: 16px;
+    line-height: 1.6;
+
+    text-align: center;           
+    resize: none;
+    outline: none;
+}
+</style>
+
+   

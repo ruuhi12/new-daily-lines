@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+   
+<title> profile </title>
+</head>
+<style>
+      
+    h2 {
+        color: #3d0505;
+        margin-left: 40px;
+    }
+    form {
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(112, 0, 0, 0.801);
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+    input[type="text"] {
+        width: 40%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #3b0606db;
+        border-radius: 4px;
+    }
+    input[type="Bio"] {
+        background-color: #dfdfdf;
+        color: rgba(96, 4, 4, 0.901);
+        border: 50px solid #3b0606db;
+        border-radius: 2px;
+        cursor: pointer;
+        width: 20%;
+    }
+    input[type="Bio"]:hover {
+        background-color:#dfdfdf
+    }
+    .header{
+    padding: 20px 40px;
+    height: 150px;
+    display: flex;
+  
+
+}
+.logo{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.pic{
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+}
+body {
+  margin: 0;
+  background-image: url(homepageimg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    
+    color: #5a2d2d;
+    
+    }
+    .box{
+     margin: 1px;
+     padding: 0;   
+    }
+    #text{
+        width: 800px;
+        padding:20px;
+        justify-content: center;
+        text-align:start
+    }
+  
+</style>
+<body>
+      
+    <header class="header">
+        
+        <div class="logo">
+            <img src="mylogo.jpg" alt="daily lines logo" class="pic">
+<h1><bold>𝓓𝓪𝓲𝓵𝔂 𝓛𝓲𝓷𝓮𝓼</bold></h1>
+</div>
+</header>
+    <div class="box">
+    <h2> PROFILE </h2>
+    <div id="text">
+    <form action="/action_page.php">
+        Username:<br>
+        <input type="text" name="firstname" value="">
+        <br><br>
+        Pen Name:<br>
+        <input type="text" name="lastname" value="">
+        <br><br>
+        Bio:<br>
+        <textarea name="Bio" rows="5" cols="70"></textarea>
+        <br><br>
+    </form>
+    </div>
+    </div> 
+    </body> 

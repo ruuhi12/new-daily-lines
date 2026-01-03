@@ -1,0 +1,306 @@
+<style>
+    body{
+    background-image: url(homepageimg.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    color: #5a2d2d;
+    width: 100%;
+
+    }
+    h1{
+        color: #5a2d2d;
+        text-align: center;
+        padding: 30px;
+        margin: 0;
+        font-size: 37px;
+        font-weight:normal;
+    }
+    body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  
+}
+
+
+.menu-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+.menu-btn {
+  background-color:#5a2d2d;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+#menu {
+  display: none;
+}
+.drop {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 45px;
+  background-color: #f5e6d3;
+  width: 160px;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.drop a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: black;
+}
+
+.drop a:hover {
+  background-color: #e0cbb0;
+}
+#menu:checked + .menu-btn + .drop {
+  display: block;
+}
+.header{
+    padding: 20px 40px;
+    height: 150px;
+    display: flex;
+  
+
+}
+.logo{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.pic{
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+}
+
+.add {
+    position: fixed;
+    top: 95%;
+    bottom: 25px;          
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+}
+
+
+.ad{
+    padding: 14px 40px;
+    font-size: 18px;
+    background-color: #2b2b2b;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+   
+}
+
+.ad:hover {
+    background-color: #000;
+}
+#quoteDisplay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.quote-card {
+    width: 350px;
+    height: 360px;
+
+    background-image: url("page.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    padding: 30px 20px;
+    border-radius: 12px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #000;
+}
+
+.save-btn {
+    position: absolute;           /* absolute positioning inside the card */
+    bottom:3px;                 /* 20px above the bottom of card */
+    left: 10%;                    /* horizontally center */
+    transform: translateX(-50%);  /* exact center */
+    padding: 10px 12px;           /* size of button */
+    border: none;                 
+    border-radius: 50%;           /* circular button */
+    cursor: pointer;
+    background: rgba(0,0,0,0.5);  /* semi-transparent dark background */
+    color: white;                 /* icon color */
+    font-size: 20px;              /* icon size */
+    transition: all 0.2s ease;    /* smooth hover effect */
+}
+
+.save-btn:hover {
+    background: rgba(0,0,0,0.8);  /* darker on hover */
+    transform: translateX(-50%) scale(1.1); /* slightly bigger */
+}
+.quote-card {
+    position: relative;   /* IMPORTANT */
+}
+.delete-btn {
+    position: absolute;
+  
+    bottom: 3px;
+    right: 15px;
+    border: none;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border-radius: 50%;
+    padding: 8px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+.delete-btn:hover {
+    background: rgba(0,0,0,0.8);
+    transform: scale(1.1);
+}
+
+
+
+
+
+
+</style>
+<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <header class="header">
+        
+        <div class="logo">
+            <img src="mylogo.jpg" alt="daily lines logo" class="pic">
+            
+<h1><bold>𝓓𝓪𝓲𝓵𝔂 𝓛𝓲𝓷𝓮𝓼</bold></h1>
+</div>
+</header>
+<div class="menu-container">
+  <input type="checkbox" id="menu">
+
+  <label for="menu" class="menu-btn">☰ Menu</label>
+   <div class="drop">
+    <a href="Profile.html">Profile</a>
+     <a href="Library.html">Library</a>
+      <a href="Setting.html">About us</a>
+       <a href="logout">Logout</a>
+ </div>
+</div>
+<div id="quoteDisplay"></div>
+
+<div class="add">
+  <a href="quotes.html" class="ad">+</a>
+</div>
+
+<div class="home-container">            
+    <div id="quoteDisplay"></div>
+</div>
+
+</body>
+<script>
+  //to move from homepage to other pages
+  function openLibrary(){
+    window.location.href="Library.html";
+    
+  }
+   function openProfile(){
+    window.location.href="Profile.html";
+    
+  }
+   function openSetting(){
+    window.location.href="Setting.html";
+    }
+ 
+window.onload = function () {
+
+    const container = document.getElementById("quoteDisplay");
+
+    function renderQuotes() {
+
+        let dailyQuotes = JSON.parse(localStorage.getItem("dailyQuotes")) || [];
+        container.innerHTML = "";
+
+        if (dailyQuotes.length === 0) {
+            container.innerText = "No quotes yet";
+            return;
+        }
+
+        dailyQuotes.forEach((q, index) => {
+
+            const card = document.createElement("div");
+            card.className = "quote-card";
+            card.innerText = q;
+
+            // SAVE BUTTON
+            const saveBtn = document.createElement("button");
+            saveBtn.className = "save-btn";
+            saveBtn.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+
+            saveBtn.onclick = function () {
+                let saved = JSON.parse(localStorage.getItem("savedQuotes")) || [];
+                if (!saved.includes(q)) {
+                    saved.push(q);
+                    localStorage.setItem("savedQuotes", JSON.stringify(saved));
+                    alert("Saved ✨");
+                }
+            };
+
+            // DELETE BUTTON
+            const deleteBtn = document.createElement("button");
+            deleteBtn.className = "delete-btn";
+            deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+
+            deleteBtn.onclick = function () {
+
+                if (!confirm("Delete this quote everywhere?")) return;
+
+                // 🔴 DELETE FROM HOME
+                dailyQuotes.splice(index, 1);
+                localStorage.setItem("dailyQuotes", JSON.stringify(dailyQuotes));
+
+                // 🔴 DELETE FROM MY WORK
+                let myQuotes = JSON.parse(localStorage.getItem("myQuotes")) || [];
+                myQuotes = myQuotes.filter(item => item.trim() !== q.trim());
+                localStorage.setItem("myQuotes", JSON.stringify(myQuotes));
+
+                // 🔴 DELETE FROM SAVED
+                let savedQuotes = JSON.parse(localStorage.getItem("savedQuotes")) || [];
+                savedQuotes = savedQuotes.filter(item => item.trim() !== q.trim());
+                localStorage.setItem("savedQuotes", JSON.stringify(savedQuotes));
+
+                renderQuotes(); // refresh
+            };
+
+            card.appendChild(saveBtn);
+            card.appendChild(deleteBtn);
+            container.appendChild(card);
+        });
+    }
+
+    renderQuotes();
+};
+</script>
+
+
+
+
+  
