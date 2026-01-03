@@ -89,22 +89,31 @@ router.delete("/:id", auth, async (req, res) => {
  */
 router.post("/", auth, async (req, res) => {
   try {
+    console.log("REQ.USER IN POST:", req.user);
+    console.log("REQ.BODY:", req.body);
+
     const { text } = req.body;
 
     if (!text) {
-      return res.status(400).json({ message: "Quote text is required" });
+      return res.status(400).json({ message: "Text is required" });
+    }
+
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: "User not authenticated" });
     }
 
     const quote = new Quote({
       text,
-      userId: req.user.userId   // IMPORTANT
+      userId: req.user.id
     });
 
     await quote.save();
+
     res.status(201).json(quote);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Failed to create quote" });
+    console.error("POST QUOTE ERROR:", err);
+    res.status(500).json({ message: "Server error" });
   }
 });
+
 module.exports = router;
