@@ -201,58 +201,52 @@ if (!localStorage.getItem("token")) {
 
     <!-- ================= BACKEND CONNECTED JS ================= -->
 
-    <script>
-        const API = "https://new-daily-lines.onrender.com/api/quotes";
-        const container = document.getElementById("quoteDisplay");
+<script>
+const API_URL = "https://new-daily-lines.onrender.com/api/quotes";
+const token = localStorage.getItem("token"); // JWT from login
 
-        async function loadQuotes() {
-            container.innerHTML = "Loading...";
+if(!token){
+  alert("Please login first!");
+  window.location.href = "login.html";
+}
 
-            const res = await fetch(API);
-            const quotes = await res.json();
+async function loadQuotes(){
+  const container = document.getElementById("quoteDisplay");
+  container.innerHTML = "<p>Loading...</p>";
 
-            container.innerHTML = "";
+  try{
+    const res = await fetch(API_URL, { headers: { "Authorization": `Bearer ${token}` } });
+    const quotes = await res.json();
+    container.innerHTML = "";
 
-            if (quotes.length === 0) {
-                container.innerText = "No quotes yet";
-                return;
-            }
+    if(!quotes.length) container.innerHTML = "<p style='text-align:center;font-weight:bold'>No quotes yet 🌿</p>";
 
-            quotes.forEach(q => {
+    quotes.forEach(q=>{
+      const card = document.createElement("div");
+      card.className = "quote-card";
+      card.innerHTML = `<p>${q.text}</p>`;
 
-                const card = document.createElement("div");
-                card.className = "quote-card";
-                card.innerText = q.text;
+      const saveBtn = document.createElement("button");
+      saveBtn.className = "save-btn";
+      saveBtn.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+      saveBtn.onclick = async ()=>{
+        await fetch(`${API_URL}/save/${q._id}`, { method:"PUT", headers:{ "Authorization":`Bearer ${token}` } });
+        alert("Saved ✨");
+      };
+      card.appendChild(saveBtn);
 
-                // SAVE BUTTON
-                const saveBtn = document.createElement("button");
-                saveBtn.className = "save-btn";
-                saveBtn.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+      container.appendChild(card);
+    });
 
-                saveBtn.onclick = async () => {
-                    await fetch(`${API}/save/${q._id}`, { method: "PUT" });
-                    alert("Saved ✨");
-                };
+  }catch(err){
+    console.error(err);
+    container.innerHTML = "<p style='text-align:center;color:red'>Error loading quotes</p>";
+  }
+}
 
-                // DELETE BUTTON
-                const deleteBtn = document.createElement("button");
-                deleteBtn.className = "delete-btn";
-                deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+loadQuotes();
+</script>
 
-                deleteBtn.onclick = async () => {
-                    if (!confirm("Delete this quote everywhere?")) return;
-                    await fetch(`${API}/${q._id}`, { method: "DELETE" });
-                    loadQuotes();
-                };
-
-                card.appendChild(saveBtn);
-                card.appendChild(deleteBtn);
-                container.appendChild(card);
-            });
-        }
-
-        window.onload = loadQuotes();
-    </script>
 
 </body>
 
