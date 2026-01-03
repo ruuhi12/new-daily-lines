@@ -1,64 +1,60 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <link rel="stylesheet" href="style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Login - Daily Lines</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body { margin:0; font-family:Arial, sans-serif; background:url(homepageimg.jpg) center/cover no-repeat; height:100vh; display:flex; justify-content:center; align-items:center; }
+.container { background:rgba(255,255,255,0.9); padding:30px; border-radius:12px; display:flex; flex-direction:column; gap:15px; width:320px; text-align:center; }
+input { padding:10px; font-size:16px; border-radius:6px; border:1px solid #ccc; width:100%; }
+button { padding:12px; font-size:16px; background:#5a2d2d; color:white; border:none; border-radius:6px; cursor:pointer; }
+button:hover { background:#42201a; }
+</style>
 </head>
 <body>
 
-<form id="log">
-  <div class="container">
-    <div class="book-container">
+<div class="container">
+<h2>Login</h2>
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+</div>
 
-      <div class="login">
-        <h2>Login</h2>
-
-        <input type="text" placeholder="E-mail" id="email" >
-        <input type="password"  placeholder="Password" id="password" >
-
-        <div class="forgot">
-          <label>
-            <input type="checkbox"> Remember me
-          </label>
-        </div>
-
-        <input type="submit" value="Login" class="but">
-
-     
-      </div>
-
-    </div>
-  </div>
-</form>
 <script>
-document.getElementById("log").addEventListener("submit", async function(e) {
-  e.preventDefault();
+const API_URL = "https://new-daily-lines.onrender.com/api/auth/login";
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+async function login(){
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
 
-  const res = await fetch("https://new-daily-lines.onrender.com/api/auth/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ email, password })
-  });
-
-  const data = await res.json();
-
-  if (res.ok) {
-    localStorage.setItem("token", data.token);
-    alert("Login successful ✨");
-    window.location.href = "homepage.html";
-  } else {
-    alert(data.message);
+  if(!email || !password){
+    alert("Please fill all fields");
+    return;
   }
-});
-</script>
 
+  try{
+    const res = await fetch(API_URL, {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+    if(res.ok){
+      // Save JWT to localStorage
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userName", data.name);
+      alert("Login successful!");
+      window.location.href = "homepage.html";
+    } else {
+      alert(data.message || "Login failed");
+    }
+  }catch(err){
+    console.error(err);
+    alert("Server error");
+  }
+}
+</script>
 </body>
-</html> 
+</html>

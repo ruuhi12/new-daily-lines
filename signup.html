@@ -1,68 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Sign Up</title>
-  <link rel="stylesheet" href="style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Sign Up - Daily Lines</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body { margin:0; font-family:Arial, sans-serif; background:url(homepageimg.jpg) center/cover no-repeat; height:100vh; display:flex; justify-content:center; align-items:center; }
+.container { background:rgba(255,255,255,0.9); padding:30px; border-radius:12px; display:flex; flex-direction:column; gap:15px; width:320px; text-align:center; }
+input { padding:10px; font-size:16px; border-radius:6px; border:1px solid #ccc; width:100%; }
+button { padding:12px; font-size:16px; background:#5a2d2d; color:white; border:none; border-radius:6px; cursor:pointer; }
+button:hover { background:#42201a; }
+</style>
 </head>
 <body>
 
-<form id="signupForm">
-  <div class="container">
-    <div class="book-container">
-      <div class="login">
-        <h2>Sign Up</h2>
-
-        <input type="text" placeholder="E-mail" id="email" required>
-        <input type="password" placeholder="Password" id="password" required>
-        <input type="password" placeholder="Confirm Password" id="confirmPassword" required>
-
-        <input type="submit" value="Sign Up" class="but">
-
-        <p>Already have an account? <a href="login.html">Login</a></p>
-      </div>
-    </div>
-  </div>
-</form>
+<div class="container">
+<h2>Create Account</h2>
+<input type="text" id="name" placeholder="Full Name">
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
+<input type="password" id="cpassword" placeholder="Confirm Password">
+<button onclick="signup()">Sign Up</button>
+<p>Already have an account? <a href="login.html">Login</a></p>
+</div>
 
 <script>
-document.getElementById("signupForm").addEventListener("submit", async function(e) {
-  e.preventDefault();
+const API_URL = "https://new-daily-lines.onrender.com/api/auth/signup";
 
+async function signup(){
+  const name = document.getElementById("name").value.trim();
   const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  const confirmPassword = document.getElementById("confirmPassword").value;
+  const password = document.getElementById("password").value.trim();
+  const cpassword = document.getElementById("cpassword").value.trim();
 
-  if (password !== confirmPassword) {
-    alert("Passwords do not match!");
+  if(!name || !email || !password || !cpassword){
+    alert("Please fill all fields");
+    return;
+  }
+  if(password !== cpassword){
+    alert("Passwords do not match");
     return;
   }
 
-  try {
-    const res = await fetch("https://new-daily-lines.onrender.com/api/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ email, password })
+  try{
+    const res = await fetch(API_URL, {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ name, email, password })
     });
-
     const data = await res.json();
-
-    if (res.ok) {
-      alert("Account created successfully! Please login.");
+    if(res.ok){
+      alert("Account created! Please login.");
       window.location.href = "login.html";
     } else {
-      alert(data.message);
+      alert(data.message || "Signup failed");
     }
-
-  } catch (err) {
-    alert("Server error, please try again later.");
+  }catch(err){
     console.error(err);
+    alert("Server error");
   }
-});
+}
 </script>
-
 </body>
 </html>
