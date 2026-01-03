@@ -1,23 +1,25 @@
 const jwt = require("jsonwebtoken");
 
-module.exports = (req, res, next) => {
+module.exports = function (req, res, next) {
   const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(" ")[1];
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  if (!token) {
     return res.status(401).json({ message: "No token provided" });
   }
 
-  const token = authHeader.split(" ")[1];
-
   try {
-    const decoded = jwt.verify(token, "aStrongSecret123!@#");
-    
-    // 🔥 THIS LINE FIXES EVERYTHING
-    req.user = { id: decoded.userId };
+    const secret = "aStrongSecret123!@#"; // same as login
+    const decoded = jwt.verify(token, secret);
+
+    // ✅ MAP PROPERLY
+    req.user = {
+      id: decoded.userId
+    };
 
     next();
   } catch (err) {
-    console.error("JWT ERROR:", err.message);
-    return res.status(401).json({ message: "Invalid token" });
+    console.error("JWT ERROR:", err);
+    res.status(401).json({ message: "Invalid token" });
   }
 };
