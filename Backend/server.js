@@ -10,12 +10,12 @@ app.use("/api/auth", authRoutes);
 app.use(cors());
 app.use(express.json());
 
-app.use(cors({
-  origin: "https://dailylines-cad.netlify.app",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  credentials: true
-}));
-app.options("*", cors());
+// app.use(cors({
+//   origin: "https://dailylines-cad.netlify.app",
+//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//   credentials: true
+// }));
+
 
 
 app.use(express.json());
