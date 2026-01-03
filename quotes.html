@@ -116,6 +116,7 @@ function getUserIdFromToken(){
 
 document.getElementById("publishBtn").addEventListener("click", async () => {
   const text = document.getElementById("quoteText").value.trim();
+  console.log(text);
   if(!text){ 
     alert("Write something first"); 
     return; 
