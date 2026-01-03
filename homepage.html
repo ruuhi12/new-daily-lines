@@ -240,7 +240,7 @@ async function loadQuotes(){
 
   }catch(err){
     console.error(err);
-    container.innerHTML = "<p style='text-align:center;color:red'>Error loading quotes</p>";
+    container.innerHTML = "<p style='text-align:center;color:red'>Error loading quotes "+JSON.stringify(err)+"</p>";
   }
 }
 
