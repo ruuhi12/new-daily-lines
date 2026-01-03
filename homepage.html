@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<script>
-if (!localStorage.getItem("token")) {
-  window.location.href = "login.html";
-}
-</script>
+    <script>
+        if (!localStorage.getItem("token")) {
+            window.location.href = "login.html";
+        }
+    </script>
 
     <style>
         /* ===== YOUR ORIGINAL CSS (UNCHANGED) ===== */
@@ -201,51 +201,84 @@ if (!localStorage.getItem("token")) {
 
     <!-- ================= BACKEND CONNECTED JS ================= -->
 
-<script>
-const API_URL = "https://new-daily-lines.onrender.com/api/quotes";
-const token = localStorage.getItem("token"); // JWT from login
+    <script>
+        const API_URL = "https://new-daily-lines.onrender.com/api/quotes";
+        const token = localStorage.getItem("token"); // JWT from login
 
-if(!token){
-  alert("Please login first!");
-  window.location.href = "login.html";
-}
+        if (!token) {
+            alert("Please login first!");
+            window.location.href = "login.html";
+        }
+        async function loadQuotes() {
+            const token = localStorage.getItem("token");
+            if (!token) return;
 
-async function loadQuotes(){
-  const container = document.getElementById("quoteDisplay");
-  container.innerHTML = "<p>Loading...</p>";
+            try {
+                const res = await fetch("https://new-daily-lines.onrender.com/api/quotes", {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
 
-  try{
-    const res = await fetch(API_URL, { headers: { "Authorization": `Bearer ${token}` } });
-    const quotes = await res.json();
-    container.innerHTML = "";
+                const data = await res.json();
+                const quotes = data.quotes; // ✅ access array
 
-    if(!quotes.length) container.innerHTML = "<p style='text-align:center;font-weight:bold'>No quotes yet 🌿</p>";
+                const container = document.getElementById("quoteDisplay");
+                container.innerHTML = "";
 
-    quotes.forEach(q=>{
-      const card = document.createElement("div");
-      card.className = "quote-card";
-      card.innerHTML = `<p>${q.text}</p>`;
+                if (!quotes || quotes.length === 0) {
+                    container.innerText = "No quotes yet";
+                    return;
+                }
 
-      const saveBtn = document.createElement("button");
-      saveBtn.className = "save-btn";
-      saveBtn.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
-      saveBtn.onclick = async ()=>{
-        await fetch(`${API_URL}/save/${q._id}`, { method:"PUT", headers:{ "Authorization":`Bearer ${token}` } });
-        alert("Saved ✨");
-      };
-      card.appendChild(saveBtn);
+                quotes.forEach(q => {
+                    const card = document.createElement("div");
+                    card.className = "quote-card";
+                    card.innerText = q.text; // if backend returns object { text, user, savedBy, ... }
 
-      container.appendChild(card);
-    });
+                    container.appendChild(card);
+                });
 
-  }catch(err){
-    console.error(err);
-    container.innerHTML = "<p style='text-align:center;color:red'>Error loading quotes "+JSON.stringify(err)+"</p>";
-  }
-}
+            } catch (err) {
+                console.error(err);
+                alert("Failed to load quotes");
+            }
+        }
 
-loadQuotes();
-</script>
+        // async function loadQuotes(){
+        //   const container = document.getElementById("quoteDisplay");
+        //   container.innerHTML = "<p>Loading...</p>";
+
+        //   try{
+        //     const res = await fetch(API_URL, { headers: { "Authorization": `Bearer ${token}` } });
+        //     const quotes = await res.json();
+        //     container.innerHTML = "";
+
+        //     if(!quotes.length) container.innerHTML = "<p style='text-align:center;font-weight:bold'>No quotes yet 🌿</p>";
+
+        //     quotes.forEach(q=>{
+        //       const card = document.createElement("div");
+        //       card.className = "quote-card";
+        //       card.innerHTML = `<p>${q.text}</p>`;
+
+        //       const saveBtn = document.createElement("button");
+        //       saveBtn.className = "save-btn";
+        //       saveBtn.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+        //       saveBtn.onclick = async ()=>{
+        //         await fetch(`${API_URL}/save/${q._id}`, { method:"PUT", headers:{ "Authorization":`Bearer ${token}` } });
+        //         alert("Saved ✨");
+        //       };
+        //       card.appendChild(saveBtn);
+
+        //       container.appendChild(card);
+        //     });
+
+        //   }catch(err){
+        //     console.error(err);
+        //     container.innerHTML = "<p style='text-align:center;color:red'>Error loading quotes "+JSON.stringify(err)+"</p>";
+        //   }
+        // }
+
+        loadQuotes();
+    </script>
 
 
 </body>
