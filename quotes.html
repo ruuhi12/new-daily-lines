@@ -15,33 +15,30 @@
 </div>
 
 <script>
+const API = "http://localhost:3000/api/quotes";
 
-function publishText(){
-    let text = document.getElementById("quoteText").value.trim();
+async function publishText() {
+  const text = document.getElementById("quoteText").value.trim();
 
-    if(text === ""){
-        alert("Write something first");
-        return;
-    }
+  if (text === "") {
+    alert("Write something first");
+    return;
+  }
 
-
-    let quotes = JSON.parse(localStorage.getItem("dailyQuotes")) || [];
-
-
-    quotes.unshift(text);
-
-    
-    localStorage.setItem("dailyQuotes", JSON.stringify(quotes));
-
-    window.location.href = "homepage.html";
-     let myWork = JSON.parse(localStorage.getItem("myQuotes")) || [];
-    myWork.unshift(text);
-    localStorage.setItem("myQuotes", JSON.stringify(myWork));
+  try {
+    await fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text })
+    });
 
     alert("Uploaded ✨");
     window.location.href = "homepage.html";
 
-    
+  } catch (err) {
+    alert("Something went wrong");
+    console.error(err);
+  }
 }
 </script>
 </body>
