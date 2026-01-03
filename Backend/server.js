@@ -4,21 +4,29 @@ const cors = require("cors");
 const authRoutes = require("./routes/auth");
 
 const app = express();
+
+/* 🔴 CORS MUST BE FIRST */
+app.use(cors({
+  origin: "https://dailylines-cad.netlify.app",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
+
+/* 🔴 Parse JSON BEFORE routes */
 app.use(express.json());
+
+/* Routes */
+const authRoutes = require("./routes/auth");
 app.use("/api/auth", authRoutes);
 
-app.use(cors());
-app.use(express.json());
+/* Test route */
+app.get("/", (req, res) => {
+  res.send("API running");
+});
 
-// app.use(cors({
-//   origin: "https://dailylines-cad.netlify.app",
-//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-//   credentials: true
-// }));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("Server running"));
 
-
-
-app.use(express.json());
 
 
 mongoose.connect("mongodb+srv://admin:L4rxvmJmG42QohGq@cluster0.ikekv48.mongodb.net/?appName=Cluster0")
