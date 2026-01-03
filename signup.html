@@ -51,7 +51,7 @@ async function signup(){
     const data = await res.json();
     if(res.ok){
       alert("Account created! Please login.");
-      window.location.href = "login.html";
+      window.location.href = "index.html";
     } else {
       alert(data.message || "Signup failed");
     }
