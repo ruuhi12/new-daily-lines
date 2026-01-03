@@ -5,215 +5,229 @@
   <title>Library</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
-    body {
-      margin: 0;
-      background-image: url(homepageimg.jpg);
-      background-size: cover;
+    body{
+      margin:0;
+      background:url(homepageimg.jpg) center/cover no-repeat;
       font-family: Arial, sans-serif;
     }
 
     .header{
-      padding: 20px 40px;
-      height: 150px;
-      display: flex;
+      padding:20px 40px;
+      height:150px;
+      display:flex;
     }
 
     .logo{
-      display: flex;
-      align-items: center;
-      gap: 15px;
+      display:flex;
+      align-items:center;
+      gap:15px;
     }
 
     .pic{
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
+      width:55px;
+      height:55px;
+      border-radius:50%;
     }
 
-    .menu-container {
-      position: relative;
-      margin: 20px 0 0 40px;
+    .menu-container{
+      margin:20px 0 0 40px;
+      position:relative;
     }
 
-    .menu-btn {
-      background-color: #5a2d2d;
-      color: white;
-      padding: 15px 40px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 24px;
+    .menu-btn{
+      background:#5a2d2d;
+      color:#fff;
+      padding:15px 40px;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:24px;
     }
 
-    #menu { display: none; }
+    #menu{ display:none; }
 
-    .drop {
-      display: none;
-      position: absolute;
-      top: 110%;
-      left: 0;
-      background-color: #f5e6d3;
-      width: 160px;
-      border-radius: 6px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      font-size: 18px;
+    .drop{
+      display:none;
+      position:absolute;
+      top:110%;
+      left:0;
+      background:#f5e6d3;
+      width:160px;
+      border-radius:6px;
+      box-shadow:0 4px 10px rgba(0,0,0,.2);
     }
 
-    #menu:checked + .menu-btn + .drop {
-      display: block;
+    #menu:checked + .menu-btn + .drop{ display:block; }
+
+    .drop a{
+      display:block;
+      padding:10px;
+      text-decoration:none;
+      color:#000;
     }
 
-    .drop a {
-      display: block;
-      padding: 10px;
-      text-decoration: none;
-      color: black;
-    }
-
-    .drop a:hover {
-      background-color: #e0cbb0;
-    }
+    .drop a:hover{ background:#e0cbb0; }
 
     #libraryContent{
-      margin-top: 60px;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 30px;
-      padding: 0 20px;
+      margin-top:50px;
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:30px;
+      padding:20px;
     }
 
     .quote-card{
-      width: 350px;
-      min-height: 200px;
-      background-image: url("page.jpeg");
-      background-size: cover;
-      background-position: center;
-      border-radius: 12px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      font-size: 18px;
-      color: #000;
-      padding: 20px;
-      position: relative;
+      width:350px;
+      min-height:200px;
+      background:url(page.jpeg) center/cover no-repeat;
+      border-radius:12px;
+      padding:25px;
+      text-align:center;
+      position:relative;
+      font-size:18px;
     }
 
-    .save-btn, .delete-btn {
-      position: absolute;
-      bottom: 5px;
-      border: none;
-      border-radius: 50%;
-      padding: 8px 10px;
-      cursor: pointer;
-      font-size: 18px;
-      color: white;
-      background: rgba(0,0,0,0.5);
-      transition: 0.2s;
+    .quote-card p{ margin:0; }
+
+    .save-btn,.delete-btn{
+      position:absolute;
+      bottom:8px;
+      border:none;
+      border-radius:50%;
+      padding:8px 10px;
+      cursor:pointer;
+      background:rgba(0,0,0,.5);
+      color:#fff;
+      font-size:18px;
     }
 
-    .save-btn { left: 10px; }
-    .delete-btn { right: 10px; }
+    .save-btn{ left:10px; }
+    .delete-btn{ right:10px; }
 
-    .save-btn:hover, .delete-btn:hover {
-      background: rgba(0,0,0,0.8);
-      transform: scale(1.1);
+    .save-btn:hover,.delete-btn:hover{
+      background:rgba(0,0,0,.85);
+      transform:scale(1.1);
     }
   </style>
 </head>
+
 <body>
-  <header class="header">
-    <div class="logo">
-      <img src="mylogo.jpg" alt="daily lines logo" class="pic">
-      <h1><b>𝓓𝓪𝓲𝓵𝔂 𝓛𝓲𝓷𝓮𝓼</b></h1>
-    </div>
-  </header>
 
-  <div class="menu-container">
-    <input type="checkbox" id="menu">
-    <label for="menu" class="menu-btn">☰ Library</label>
-    <div class="drop">
-      <a href="#" onclick="loadQuotes('my')">My Work</a>
-      <a href="#" onclick="loadQuotes('saved')">Saved</a>
-    </div>
+<header class="header">
+  <div class="logo">
+    <img src="mylogo.jpg" class="pic">
+    <h1>𝓓𝓪𝓲𝓵𝔂 𝓛𝓲𝓷𝓮𝓼</h1>
   </div>
+</header>
 
-  <div id="libraryContent"></div>
+<div class="menu-container">
+  <input type="checkbox" id="menu">
+  <label for="menu" class="menu-btn">☰ Library</label>
+  <div class="drop">
+    <a href="#" onclick="loadMyQuotes()">My Work</a>
+    <a href="#" onclick="loadSavedQuotes()">Saved</a>
+  </div>
+</div>
 
-  <script>
-    const API_URL = "https://new-daily-lines.onrender.com/api/quotes";
-    const token = localStorage.getItem("token"); // JWT token saved on login
-    if(!token){
-      alert("Please login first!");
-      window.location.href = "login.html";
-    }
+<div id="libraryContent"></div>
 
-    async function loadQuotes(type){
-      const container = document.getElementById("libraryContent");
-      container.innerHTML = "<p>Loading...</p>";
+<script>
+const API = "https://new-daily-lines.onrender.com/api/quotes";
+const token = localStorage.getItem("token");
 
-      try {
-        const res = await fetch(`${API_URL}/${type}`, {
-          method: "GET",
-          headers: {
-            "Authorization": `Bearer ${token}`
-          }
-        });
-        const quotes = await res.json();
+if(!token){
+  alert("Please login first");
+  window.location.href = "login.html";
+}
 
-        container.innerHTML = "";
+/* ---------------- LOAD MY QUOTES ---------------- */
+async function loadMyQuotes(){
+  const container = document.getElementById("libraryContent");
+  container.innerHTML = "<p>Loading...</p>";
 
-        if(!quotes.length){
-          container.innerHTML = "<p style='text-align:center;font-weight:bold'>Nothing here yet 🌿</p>";
-          return;
-        }
+  const res = await fetch(`${API}/my`,{
+    headers:{ Authorization:`Bearer ${token}` }
+  });
 
-        quotes.forEach(q => {
-          const card = document.createElement("div");
-          card.className = "quote-card";
-          card.innerHTML = `<p>${q.text}</p>`;
+  const quotes = await res.json();
+  container.innerHTML = "";
 
-          if(type === "my"){ // my work → allow delete + save
-            const saveBtn = document.createElement("button");
-            saveBtn.className = "save-btn";
-            saveBtn.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
-            saveBtn.onclick = async () => {
-              await fetch(`${API_URL}/save/${q._id}`, {
-                method: "PUT",
-                headers: { "Authorization": `Bearer ${token}` }
-              });
-              alert("Saved ✨");
-            };
+  if(!quotes.length){
+    container.innerHTML = "<p>Nothing here yet 🌿</p>";
+    return;
+  }
 
-            const deleteBtn = document.createElement("button");
-            deleteBtn.className = "delete-btn";
-            deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
-            deleteBtn.onclick = async () => {
-              if(confirm("Delete this quote?")){
-                await fetch(`${API_URL}/${q._id}`, {
-                  method: "DELETE",
-                  headers: { "Authorization": `Bearer ${token}` }
-                });
-                loadQuotes("my");
-              }
-            };
+  quotes.forEach(q=>{
+    const card = document.createElement("div");
+    card.className="quote-card";
+    card.innerHTML = `<p>${q.text}</p>`;
 
-            card.appendChild(saveBtn);
-            card.appendChild(deleteBtn);
-          }
+    /* SAVE */
+    const saveBtn = document.createElement("button");
+    saveBtn.className="save-btn";
+    saveBtn.innerHTML='<i class="fa-regular fa-bookmark"></i>';
+    saveBtn.onclick = ()=>saveQuote(q._id);
 
-          container.appendChild(card);
-        });
-      } catch(err){
-        console.error(err);
-        container.innerHTML = "<p style='text-align:center;color:red'>Error loading quotes</p>";
-      }
-    }
+    /* DELETE */
+    const delBtn = document.createElement("button");
+    delBtn.className="delete-btn";
+    delBtn.innerHTML='<i class="fa-solid fa-trash"></i>';
+    delBtn.onclick = ()=>deleteQuote(q._id);
 
-    // Load My Work by default
-    loadQuotes("my");
-  </script>
+    card.appendChild(saveBtn);
+    card.appendChild(delBtn);
+    container.appendChild(card);
+  });
+}
+
+/* ---------------- LOAD SAVED ---------------- */
+async function loadSavedQuotes(){
+  const container = document.getElementById("libraryContent");
+  container.innerHTML = "<p>Loading...</p>";
+
+  const res = await fetch(`${API}/saved`,{
+    headers:{ Authorization:`Bearer ${token}` }
+  });
+
+  const quotes = await res.json();
+  container.innerHTML = "";
+
+  if(!quotes.length){
+    container.innerHTML = "<p>Nothing saved yet 🌿</p>";
+    return;
+  }
+
+  quotes.forEach(q=>{
+    const card = document.createElement("div");
+    card.className="quote-card";
+    card.innerHTML = `<p>${q.text}</p>`;
+    container.appendChild(card);
+  });
+}
+
+/* ---------------- ACTIONS ---------------- */
+async function saveQuote(id){
+  await fetch(`${API}/${id}/save`,{
+    method:"POST",
+    headers:{ Authorization:`Bearer ${token}` }
+  });
+  alert("Saved ✨");
+}
+
+async function deleteQuote(id){
+  if(!confirm("Delete this quote?")) return;
+  await fetch(`${API}/${id}`,{
+    method:"DELETE",
+    headers:{ Authorization:`Bearer ${token}` }
+  });
+  loadMyQuotes();
+}
+
+/* Default */
+loadMyQuotes();
+</script>
+
 </body>
 </html>
