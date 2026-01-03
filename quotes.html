@@ -1,5 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Publish Quote</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+body{
+    margin: 0;
+    height: 100vh;
+    background: url(homepageimg.jpg) center/cover no-repeat;
+}
+
+.header{
+    position: fixed;
+    top: 20px;
+    left: 30px;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.pic{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+h1{
+    font-size: 28px;
+    color: #5a2d2d;
+    font-weight: normal;
+}
+
+.write{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+textarea{
+  width: 350px;
+  height: 360px;
+  background-image: url("page.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;        
+  background-position: center;   
+  color: #000;                  
+  border: none;
+  border-radius: 12px;
+  padding: 80px 25px;            
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: center;           
+  resize: none;
+  outline: none;
+}
+
+button{
+    padding: 12px 30px;
+    font-size: 18px;
+    background-color: #5a2d2d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover{
+    background-color: #000;
+}
+</style>
+</head>
 <body>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <header class="header">
     <div class="logo">
@@ -10,8 +91,7 @@
 
 <div class="write">
     <textarea id="quoteText" placeholder="Write something..."></textarea>
-    <button onclick="publishText()">Publish</button>
-    
+    <button id="publishBtn">Publish</button>
 </div>
 
 <script>
@@ -66,70 +146,6 @@ document.getElementById("publishBtn").addEventListener("click", async () => {
   }
 });
 </script>
+
 </body>
-<style>
-body{
-    margin: 0;
-    height: 100vh;
-    background: url(homepageimg.jpg) center/cover no-repeat;
-}
-
-
-.header{
-    position: fixed;
-    top: 20px;
-    left: 30px;
-}
-
-.logo{
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-
-.pic{
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-}
-
-
-h1{
-    font-size: 28px;
-    color: #5a2d2d;
-    font-weight: normal;
-}
-.write{
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-}
-
-textarea{
-  width: 350px;
-    height: 360px;
-
-    background-image: url("page.jpeg");
-    background-repeat: no-repeat;
-    background-size: cover;        
-    background-position: center;   
-
-    color: #000;                  
-    border: none;
-    border-radius: 12px;
-
-    padding: 80px 25px;            
-    font-size: 16px;
-    line-height: 1.6;
-
-    text-align: center;           
-    resize: none;
-    outline: none;
-}
-</style>
-
-   
+</html>
