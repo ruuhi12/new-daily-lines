@@ -201,84 +201,88 @@
 
     <!-- ================= BACKEND CONNECTED JS ================= -->
 
-    <script>
-        const API_URL = "https://new-daily-lines.onrender.com/api/quotes";
-        const token = localStorage.getItem("token"); // JWT from login
+  <script>
+const token = localStorage.getItem("token"); // JWT token
 
-        if (!token) {
-            alert("Please login first!");
-            window.location.href = "login.html";
+async function loadQuotes() {
+    const container = document.getElementById("quoteDisplay");
+    container.innerHTML = "";
+
+    try {
+        const res = await fetch("https://new-daily-lines.onrender.com/api/quotes", {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error("Failed to fetch quotes");
+        const quotes = await res.json();
+
+        if (!quotes.length) {
+            container.innerHTML = "<p style='text-align:center;font-weight:bold'>No quotes yet 🌿</p>";
+            return;
         }
-        async function loadQuotes() {
-            const token = localStorage.getItem("token");
-            if (!token) return;
 
-            try {
-                const res = await fetch("https://new-daily-lines.onrender.com/api/quotes/my", {
-                    headers: { "Authorization": `Bearer ${token}` }
-                });
+        quotes.forEach(q => {
+            const card = document.createElement("div");
+            card.className = "quote-card";
+            card.innerText = q.text;
 
-                const data = await res.json();
-                const quotes = data; // ✅ access array
-
-                const container = document.getElementById("quoteDisplay");
-                container.innerHTML = "";
-
-                if (!quotes || quotes.length === 0) {
-                    container.innerText = "No quotes yet";
-                    return;
+            // SAVE button
+            const saveBtn = document.createElement("button");
+            saveBtn.className = "save-btn";
+            saveBtn.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+            saveBtn.onclick = async () => {
+                try {
+                    const saveRes = await fetch(`https://new-daily-lines.onrender.com/api/quotes/save/${q._id}`, {
+                        method: "POST",
+                        headers: { "Authorization": `Bearer ${token}` }
+                    });
+                    if (!saveRes.ok) throw new Error("Failed to save quote");
+                    alert("Saved ✨");
+                } catch (err) {
+                    console.error(err);
+                    alert("Error saving quote");
                 }
+            };
 
-                quotes.forEach(q => {
-                    const card = document.createElement("div");
-                    card.className = "quote-card";
-                    card.innerText = q.text; // if backend returns object { text, user, savedBy, ... }
-
-                    container.appendChild(card);
-                });
-
-            } catch (err) {
-                console.error(err);
-                alert("Failed to load quotes");
+            // DELETE button (if current user is the author)
+            if (q.userId === getUserIdFromToken()) {
+                const deleteBtn = document.createElement("button");
+                deleteBtn.className = "delete-btn";
+                deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+                deleteBtn.onclick = async () => {
+                    if (!confirm("Delete this quote?")) return;
+                    try {
+                        const delRes = await fetch(`https://new-daily-lines.onrender.com/api/quotes/${q._id}`, {
+                            method: "DELETE",
+                            headers: { "Authorization": `Bearer ${token}` }
+                        });
+                        if (!delRes.ok) throw new Error("Failed to delete quote");
+                        loadQuotes();
+                    } catch (err) {
+                        console.error(err);
+                        alert("Error deleting quote");
+                    }
+                };
+                card.appendChild(deleteBtn);
             }
-        }
 
-        // async function loadQuotes(){
-        //   const container = document.getElementById("quoteDisplay");
-        //   container.innerHTML = "<p>Loading...</p>";
+            card.appendChild(saveBtn);
+            container.appendChild(card);
+        });
+    } catch (err) {
+        console.error(err);
+        container.innerHTML = "<p style='text-align:center;color:red;'>Failed to load quotes</p>";
+    }
+}
 
-        //   try{
-        //     const res = await fetch(API_URL, { headers: { "Authorization": `Bearer ${token}` } });
-        //     const quotes = await res.json();
-        //     container.innerHTML = "";
+// Extract userId from JWT token
+function getUserIdFromToken() {
+    if (!token) return null;
+    const payload = token.split('.')[1];
+    return JSON.parse(atob(payload)).userId;
+}
 
-        //     if(!quotes.length) container.innerHTML = "<p style='text-align:center;font-weight:bold'>No quotes yet 🌿</p>";
-
-        //     quotes.forEach(q=>{
-        //       const card = document.createElement("div");
-        //       card.className = "quote-card";
-        //       card.innerHTML = `<p>${q.text}</p>`;
-
-        //       const saveBtn = document.createElement("button");
-        //       saveBtn.className = "save-btn";
-        //       saveBtn.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
-        //       saveBtn.onclick = async ()=>{
-        //         await fetch(`${API_URL}/save/${q._id}`, { method:"PUT", headers:{ "Authorization":`Bearer ${token}` } });
-        //         alert("Saved ✨");
-        //       };
-        //       card.appendChild(saveBtn);
-
-        //       container.appendChild(card);
-        //     });
-
-        //   }catch(err){
-        //     console.error(err);
-        //     container.innerHTML = "<p style='text-align:center;color:red'>Error loading quotes "+JSON.stringify(err)+"</p>";
-        //   }
-        // }
-
-        loadQuotes();
-    </script>
+window.onload = loadQuotes;
+</script>
 
 
 </body>
