@@ -219,7 +219,7 @@
                 });
 
                 const data = await res.json();
-                const quotes = data.quotes; // ✅ access array
+                const quotes = data; // ✅ access array
 
                 const container = document.getElementById("quoteDisplay");
                 container.innerHTML = "";
